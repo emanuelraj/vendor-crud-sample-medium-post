@@ -122,7 +122,11 @@ class Home extends Component<RecipeProps> {
 
   onSubmit = () => {
     const formValue: any = {...this.state.formValue};
-    (this.props as any).createThreat(formValue);
+    if (this.state.drawerTitle === 'NEW'){
+      (this.props as any).createThreat(formValue);
+    } else {
+      (this.props as any).updateThreat(formValue);
+    }
     this.onClose();
   }
 

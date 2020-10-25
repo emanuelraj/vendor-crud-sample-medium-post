@@ -42,11 +42,9 @@ export default function(state: any = initState, action: any = {}) {
         loadingDeleteThreat: true
       };
     case actions.THREAT_DELETE_SUCCESS:
-      debugger
       state.threats = state.threats.filter(
         (threat: any) => threat.id !== action.id
       );
-      debugger
       return {
         ...state,
         loadingDeleteThreat: false,
@@ -58,9 +56,15 @@ export default function(state: any = initState, action: any = {}) {
         loadingUpdateThreat: true
       };
     case actions.THREAT_UPDATE_SUCCESS:
+      debugger
+      const {id} = action.response;
+      const newThreat = action.response;
+      const index = _.findIndex(state.threats, {id});
+      state.threats[id] = newThreat;
       return {
         ...state,
-        loadingUpdateThreat: false
+        loadingUpdateThreat: false,
+        threats: [...state.threats]
       };
     default:
       return state;

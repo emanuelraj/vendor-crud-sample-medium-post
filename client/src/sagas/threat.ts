@@ -46,21 +46,17 @@ function* deleteItem(option: any) {
 }
 
 function* updateThreat(option: any) {
-  const { itemId, listId, index } = option;
-  yield put(actions.updateThreatRequest(itemId, index));
+  const { id, title, classification, impact, likelihood } = option;
+  yield put(actions.updateThreatRequest({id, title, classification, impact, likelihood}));
   try {
-    const { response, error } = yield call(apiCalls.updateThreat, {
-      listId,
-      itemId,
-      index
-    });
+    const { response, error } = yield call(apiCalls.updateThreat, {id, title, classification, impact, likelihood});
     if (response) {
       yield put(actions.updateThreatSuccess(response));
-      toast.success('Item reOrdered successfully!');
+      toast.success('updated successfully!');
     } else {
       toast.error(`we are gonna retry because of ${error.message}`);
       yield delay(5000);
-      yield put(actions.updateThreat({ itemId, listId, index }));
+      yield put(actions.updateThreat({id, title, classification, impact, likelihood}));
     }
   } catch (error) {
     toast.error(`${error.message}`);

@@ -20,8 +20,8 @@ export default {
     action(actions.THREAT_DELETE_SUCCESS, { response, id }),
 
   updateThreat: (option: object) => action(actions.THREAT_UPDATE, option),
-  updateThreatRequest: (itemId: string, index: number) =>
-    action(actions.THREAT_UPDATE_REQUEST, { itemId, index }),
+  updateThreatRequest: (option: object) =>
+    action(actions.THREAT_UPDATE_REQUEST, { option }),
     updateThreatSuccess: (response: any) =>
     action(actions.THREAT_UPDATE_SUCCESS, { response }),
 };

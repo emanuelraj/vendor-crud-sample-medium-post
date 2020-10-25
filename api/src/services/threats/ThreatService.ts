@@ -63,6 +63,24 @@ export default class ThreatService {
       ]),
       new Route("/api/threats/:id", "put", [
         async (req: Request, res: Response) => {
+          try {
+            const id = req.params.id;
+            const {title, classification, impact, likelihood} = req.body
+            const index = _.findIndex(this.threats, {id});
+            const newThreat = this.threats[index];
+            newThreat.title  = title;
+            newThreat.classification  = classification;
+            newThreat.impact  = impact;
+            newThreat.likelihood  = likelihood;
+            this.threats.splice(index, 1, newThreat);
+            res.status(200).json({
+              ...newThreat,
+              risk: newThreat.risk
+            });
+          } catch (e) {
+            console.log("error", e);
+            res.status(503).json({ message: e });
+          }
         }
       ]),
     ];

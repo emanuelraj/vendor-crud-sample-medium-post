@@ -54,13 +54,13 @@ const deleteThreat = (option: any) => {
 
 const updateThreat = (option: any) => {
   const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
-  const { itemId, listId, index } = option;
-  const endpoint = `${baseUrl}/api/lists/${listId}/items/${itemId}`;
+  const { id, title, classification, impact, likelihood } = option;
+  const endpoint = `${baseUrl}/api/threats/${id}`;
   const options = {
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
     method: 'PUT',
-    body: JSON.stringify({ index })
+    body: JSON.stringify({ title, classification, impact, likelihood })
   };
   return callApiEndpoint(endpoint, options);
 };
