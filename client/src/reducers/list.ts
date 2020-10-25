@@ -18,12 +18,12 @@ export default function(state: any = initState, action: any = {}) {
         loadingCreateThreat: true
       };
     case actions.THREAT_CREATE_SUCCESS:
-      ({
-        response: {  }
-      } = action);
+      const threats = [...state.threats]
+      threats.push(action.response);
       return {
         ...state,
-        loadingCreateThreat: false
+        loadingCreateThreat: false,
+        threats
       };
     case actions.THREATS_LOAD_REQUEST:
       return {

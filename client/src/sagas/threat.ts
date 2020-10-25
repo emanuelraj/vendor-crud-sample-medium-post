@@ -6,20 +6,19 @@ import { toast } from 'react-toastify';
 
 /** *************************** Subroutines ************************************/
 function* createThreat(option: any) {
-  const { title, listId, tempId } = option;
-  yield put(actions.createThreatRequest({ title, tempId }));
+  const { title, classification, impact, likelihood } = option;
+  yield put(actions.createThreatRequest({ title, classification, impact, likelihood }));
   try {
     const { response, error } = yield call(apiCalls.createThreat, {
-      title,
-      listId
+      title, classification, impact, likelihood
     });
     if (response) {
-      yield put(actions.createThreatSuccess(response, tempId));
+      yield put(actions.createThreatSuccess(response));
       toast.success('Item created successfully!');
     } else {
       toast.error(`we are gonna retry because of ${error.message}`);
       yield delay(5000);
-      yield put(actions.createThreat({ title, listId, tempId }));
+      yield put(actions.createThreat({ title, classification, impact, likelihood }));
     }
   } catch (error) {
     toast.error(`${error.message}`);

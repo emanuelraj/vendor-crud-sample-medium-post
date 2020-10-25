@@ -11,8 +11,8 @@ export default {
   createThreat: (option: object) => action(actions.THREAT_CREATE, option),
   createThreatRequest: (option: object) =>
     action(actions.THREAT_CREATE_REQUEST, option),
-  createThreatSuccess: (response: any, tempId: string) =>
-    action(actions.THREAT_CREATE_SUCCESS, { response, tempId }),
+  createThreatSuccess: (response: any) =>
+    action(actions.THREAT_CREATE_SUCCESS, { response }),
 
   deleteThreat: (option: object) => action(actions.THREAT_DELETE, option),
   deleteThreatRequest: () => action(actions.THREAT_DELETE_REQUEST),

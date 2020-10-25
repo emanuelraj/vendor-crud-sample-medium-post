@@ -121,8 +121,9 @@ class Home extends Component<RecipeProps> {
   }
 
   onSubmit = () => {
-    const formValue: any = {...this.state.formValue}
-    console.log(formValue)
+    const formValue: any = {...this.state.formValue};
+    (this.props as any).createThreat(formValue);
+    this.onClose();
   }
 
   onDelete = (id: string) => {

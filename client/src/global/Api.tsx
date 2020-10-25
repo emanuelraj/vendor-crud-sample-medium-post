@@ -30,13 +30,13 @@ const loadThreats = (option: any) => {
 
 const createThreat = (option: any) => {
   const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
-  const { title, listId } = option;
-  const endpoint = `${baseUrl}/api/lists/${listId}/items`;
+  const {title, classification, impact, likelihood} = option;
+  const endpoint = `${baseUrl}/api/threats`;
   const options = {
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
     method: 'POST',
-    body: JSON.stringify({ title })
+    body: JSON.stringify({title, classification, impact, likelihood})
   };
   return callApiEndpoint(endpoint, options);
 };
