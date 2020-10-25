@@ -5,10 +5,12 @@ import { connect } from 'react-redux'
 import { loadUserLogin } from '../actions/app'
 import styled from 'styled-components'
 import loginBg from '../assets/Background.svg'
-import { Layout, Row, Col, Form, Input, Button } from 'antd';
+import Logo from '../assets/FwdSec_logo.png'
+import { Layout, Row, Col, Form, Input, Button, Typography } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { mobileL } from '../components/devices'
 
+const { Title } = Typography;
 const LoginContent = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -60,8 +62,10 @@ class LoginPage extends Component {
             <Row>
               <Col style={{ width: '100%' }}>
                 <Form className='login-form' onSubmit={this.userLogin}>
+                  <img src={Logo} alt="logo"/>
                   <br />
                   <br />
+                  <Title level={3} style={{color: '#fff'}}>LOGIN</Title>
                   <Form.Item>
                     <Input
                       placeholder='Email'
