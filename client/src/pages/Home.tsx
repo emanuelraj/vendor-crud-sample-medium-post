@@ -19,9 +19,9 @@ class Home extends Component<RecipeProps> {
 
   render() {
     return (
-      <>
+      <ToastContainer>
         <div>test</div>
-      </>
+      </ToastContainer>
     );
   }
 

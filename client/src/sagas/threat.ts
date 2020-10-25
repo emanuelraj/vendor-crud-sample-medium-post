@@ -3,7 +3,6 @@ import * as actionType from '../global/actions';
 import actions from '../actions/threat';
 import { apiCalls } from '../global/Api';
 import { toast } from 'react-toastify';
-import { history } from '../config/store';
 
 /** *************************** Subroutines ************************************/
 function* createThreat(option: any) {
@@ -80,8 +79,7 @@ function* loadThreats(option: any) {
     } else {
       if (error.message === 'list not found.') {
         toast.error(`We couldn't find the list! please make a new one.`);
-        yield put(actions.clearCache());
-        history.push('/');
+        // history.push('/');
         return;
       }
       toast.error(`we are gonna retry because of ${error.message}`);

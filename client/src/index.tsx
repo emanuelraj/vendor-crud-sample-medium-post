@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import './index.css';
+import './assets/fonts/stylesheet.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import configureStore, { history } from './config/store';
 import rootSaga from './sagas';
 import { StoreContext } from 'redux-react-hook';
+import "antd/dist/antd.css";
 
 const { store, runSaga } = configureStore();
 runSaga(rootSaga);

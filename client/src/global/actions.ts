@@ -1,7 +1,11 @@
 // Redux Global Action names
 
-// GLOBAL
-export const CLEAR_CACHE = 'CLEAR_CACHE';
+// APP
+export const APP_LOAD_USER_LOGIN = 'APP_LOAD_USER_LOGIN'; 
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'; 
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'; 
+export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE'; 
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS'; 
 
 // THREAT
 export const THREATS_LOAD = 'THREATS_LOAD';

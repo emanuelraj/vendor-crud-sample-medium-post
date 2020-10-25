@@ -24,6 +24,4 @@ export default {
     action(actions.THREAT_UPDATE_REQUEST, { itemId, index }),
     updateThreatSuccess: (response: any) =>
     action(actions.THREAT_UPDATE_SUCCESS, { response }),
-  
-  clearCache: () => action(actions.CLEAR_CACHE)
 };
