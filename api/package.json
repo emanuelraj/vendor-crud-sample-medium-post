@@ -1,0 +1,106 @@
+{
+  "name": "threat-manager-api",
+  "version": "1.0.0",
+  "description": "express application",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf dist &&./node_modules/.bin/tsc -p .",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
+    "dev": "npm run build && tsc-watch --onSuccess \"node ./dist/server.js\"",
+    "dev:debug": "npm run build && tsc-watch --onSuccess \"node --inspect-brk ./dist/server.js\"",
+    "start": "node -r dotenv/config ./dist/server.js"
+  },
+  "author": "Reza Moghaddas",
+  "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "/**/*.{js,ts}"
+    ],
+    "testRegex": "(/__tests__/.*/|(\\.|_|/)(test|spec))\\.(jsx?|tsx?)$",
+    "haste": {
+      "providesModuleNodeModules": [
+        "krs-oc-.*"
+      ]
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "/__tests__/unit/fixtures/"
+    ],
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/src/$1"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node",
+      "d.ts",
+      "js.map"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "<rootDir>/src"
+    ],
+    "modulePathIgnorePatterns": [
+      "source-map",
+      "is-buffer",
+      "debug",
+      "ms",
+      "axios",
+      "qs",
+      "content-disposition",
+      "express",
+      "raw-body",
+      "inherits",
+      "serve-static",
+      "cookie",
+      "body-parser",
+      "send",
+      "finalhandler",
+      "array-flatten"
+    ]
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "dotenv-safe": "^6.1.0",
+    "env-cmd": "^9.0.1",
+    "express": "^5.0.0-alpha.7",
+    "lodash": "^4.17.15",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "request-promise-native": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/aws-serverless-express": "^3.3.1",
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^6.1.1",
+    "@types/dotenv-safe": "^5.0.4",
+    "@types/express": "^4.17.2",
+    "@types/express-session": "^1.15.16",
+    "@types/faker": "^4.1.5",
+    "@types/jest": "^24.0.12",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^10.17.14",
+    "@types/supertest": "^2.0.8",
+    "express-session": "^1.17.0",
+    "faker": "^4.1.0",
+    "jest": "^24.8.0",
+    "ms": "^2.1.2",
+    "passport-mock-strategy": "^2.0.0",
+    "ts-jest": "^26.4.2",
+    "tsc-watch": "^1.1.39",
+    "tslint": "^5.16.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.7.5",
+    "uuidv4": "^6.0.1"
+  }
+}
