@@ -33,11 +33,15 @@ export default class ThreatService {
       new Route("/api/threats", "get", [
         async (req: Request, res: Response) => {
           try {
+            const skip = ((req.headers as any).current - 1) * (req.headers as any).pagesize;
+            const take = +(req.headers as any).pagesize;
+            const data = _.slice(this.threats, skip, skip + take);
             res.status(200).json({
-              threats: this.threats.map((threat)=>{return{
+              threats: data.map((threat)=>{return{
                 ...threat,
                 risk: threat.risk
-              }})
+              }}),
+              total: this.threats.length
             });
           } catch (e) {
             console.log("error", e);

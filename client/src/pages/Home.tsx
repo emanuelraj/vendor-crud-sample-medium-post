@@ -33,7 +33,7 @@ class Home extends Component<RecipeProps> {
   state = {
     pagination: {
       current: 1,
-      pageSize: 10,
+      pageSize: 5,
     },
     loading: false,
     visible: false,
@@ -90,7 +90,7 @@ class Home extends Component<RecipeProps> {
   ];
 
   componentDidMount() {
-    (this.props as any).loadThreats()
+    (this.props as any).loadThreats({pagination: this.state.pagination})
   }
 
   onClose = () => {
@@ -132,6 +132,11 @@ class Home extends Component<RecipeProps> {
 
   onDelete = (id: string) => {
     (this.props as any).deleteThreat({id})
+  }
+
+  onChange = (pagination: any) => {
+    this.setState({pagination});
+    (this.props as any).loadThreats({pagination})
   }
 
   renderForm = () => {
@@ -181,7 +186,8 @@ class Home extends Component<RecipeProps> {
 
   render() {
     const { pagination, loading, visible, drawerTitle } = this.state;
-    const data = this.props.listStore.threats
+    const data = this.props.listStore.threats;
+    (pagination as any).total = this.props.listStore.total;
     return (
       <Row>
         <Col flex="auto">
@@ -202,8 +208,9 @@ class Home extends Component<RecipeProps> {
           columns={this.columns}
           dataSource={data}
           rowKey={record => record.id}
-          pagination={pagination}
+          pagination={{...pagination, }}
           loading={loading}
+          onChange={this.onChange}
         />
         </Col>
       </Row>

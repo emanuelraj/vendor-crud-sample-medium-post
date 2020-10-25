@@ -23,9 +23,14 @@ const callApiEndpoint = (endpoint: string, options = {}) => {
 
 const loadThreats = (option: any) => {
   const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
-  const { id } = option;
+  const { pagination } = option;
   const endpoint = `${baseUrl}/api/threats`;
-  return callApiEndpoint(endpoint, {});
+  const options = {
+    headers: { 'current': pagination.current, 'pageSize': pagination.pageSize },
+    mode: 'cors',
+    method: 'GET'
+  };
+  return callApiEndpoint(endpoint, options);
 };
 
 const createThreat = (option: any) => {

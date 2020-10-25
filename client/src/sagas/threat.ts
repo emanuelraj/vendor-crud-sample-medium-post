@@ -65,20 +65,19 @@ function* updateThreat(option: any) {
 
 function* loadThreats(option: any) {
   yield put(actions.loadThreatsRequest());
-  const { listId } = option;
+  const { pagination } = option;
   try {
-    const { response, error } = yield call(apiCalls.loadThreats, { id: listId });
+    const { response, error } = yield call(apiCalls.loadThreats, { pagination });
     if (response) {
       yield put(actions.loadThreatsSuccess(response));
     } else {
       if (error.message === 'list not found.') {
-        toast.error(`We couldn't find the list! please make a new one.`);
-        // history.push('/');
+        toast.error(`We couldn't find the list!`);
         return;
       }
       toast.error(`we are gonna retry because of ${error.message}`);
       yield delay(5000);
-      yield put(actions.loadThreats({ listId }));
+      yield put(actions.loadThreats({ pagination }));
     }
   } catch (error) {
     toast.error(`${error.message}`);

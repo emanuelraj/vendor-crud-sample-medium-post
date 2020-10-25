@@ -4,6 +4,7 @@ import Threat from '../models/Threat';
 
 const initState = {
   threats: null,
+  total: 0,
   loadingThreatsFetch: false,
   loadingCreateThreat: false,
   loadingDeleteThreat: false,
@@ -34,7 +35,8 @@ export default function(state: any = initState, action: any = {}) {
       return {
         ...state,
         loadingThreatsFetch: false,
-        threats: action.response.threats
+        threats: action.response.threats,
+        total: action.response.total
       };
     case actions.THREAT_DELETE_REQUEST:
       return {
