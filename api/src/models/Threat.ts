@@ -1,4 +1,5 @@
 import level from './level';
+import { uuid } from "uuidv4";
 
 export default class Threat {
   public id: string;
@@ -7,8 +8,8 @@ export default class Threat {
   public impact: number;
   public likelihood: number;
 
-  constructor(id: string, title: string, classification: string, impact: number = 0, likelihood: number = 0) {
-    this.id = id;
+  constructor(title: string, classification: string, impact: number = 0, likelihood: number = 0) {
+    this.id = uuid();
     this.title = title;
     this.classification = classification;
     this.impact = impact;

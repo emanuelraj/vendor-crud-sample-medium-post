@@ -24,7 +24,7 @@ const callApiEndpoint = (endpoint: string, options = {}) => {
 const loadThreats = (option: any) => {
   const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
   const { id } = option;
-  const endpoint = `${baseUrl}/api/lists/${id}`;
+  const endpoint = `${baseUrl}/api/threats`;
   return callApiEndpoint(endpoint, {});
 };
 
@@ -43,8 +43,8 @@ const createThreat = (option: any) => {
 
 const deleteThreat = (option: any) => {
   const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
-  const { itemId, listId } = option;
-  const endpoint = `${baseUrl}/api/lists/${listId}/items/${itemId}`;
+  const { id } = option;
+  const endpoint = `${baseUrl}/api/threats/${id}`;
   const options = {
     mode: 'cors',
     method: 'DELETE'

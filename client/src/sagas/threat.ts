@@ -27,20 +27,19 @@ function* createThreat(option: any) {
 }
 
 function* deleteItem(option: any) {
-  const { id: itemId, listId } = option;
+  const { id: id } = option;
   yield put(actions.deleteThreatRequest());
   try {
     const { response, error } = yield call(apiCalls.deleteThreat, {
-      listId,
-      itemId
+      id
     });
     if (response) {
-      yield put(actions.deleteThreatSuccess(response, itemId));
+      yield put(actions.deleteThreatSuccess(response, id));
       toast.success('Item deleted successfully!');
     } else {
       toast.error(`we are gonna retry because of ${error.message}`);
       yield delay(5000);
-      yield put(actions.deleteThreat({ id: itemId, listId }));
+      yield put(actions.deleteThreat({ id }));
     }
   } catch (error) {
     toast.error(`${error.message}`);

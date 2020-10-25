@@ -69,6 +69,7 @@
     ]
   },
   "dependencies": {
+    "cognito-express": "^2.0.18",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "dotenv-safe": "^6.1.0",
@@ -101,6 +102,6 @@
     "tslint": "^5.16.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.7.5",
-    "uuidv4": "^6.0.1"
+    "uuidv4": "^6.2.4"
   }
 }

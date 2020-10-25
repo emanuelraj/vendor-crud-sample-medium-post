@@ -4,8 +4,6 @@ import _ from "lodash";
 import Threat from "../../models/Threat";
 import { Route } from "../../utils";
 
-import { uuid } from "uuidv4";
-
 export default class ThreatService {
   
   public threats: Threat[] = [];
@@ -19,10 +17,12 @@ export default class ThreatService {
       new Route("/api/threats", "post", [
         async (req: Request, res: Response) => {
           try {
-            const threat = new Threat(uuid(), '', '', 0, 0);
+            const {title, classification, impact, likelihood} = req.body
+            const threat = new Threat(title, classification, impact, likelihood);
             this.threats.push(threat);
             res.status(200).json({
-              threat
+              ...threat,
+              risk: threat.risk
             });
           } catch (e) {
             console.log("error", e);
@@ -34,26 +34,11 @@ export default class ThreatService {
         async (req: Request, res: Response) => {
           try {
             res.status(200).json({
-              threats: this.threats
+              threats: this.threats.map((threat)=>{return{
+                ...threat,
+                risk: threat.risk
+              }})
             });
-          } catch (e) {
-            console.log("error", e);
-            res.status(503).json({ message: e });
-          }
-        }
-      ]),
-      new Route("/api/threats/:id", "get", [
-        async (req: Request, res: Response) => {
-          try {
-            const id = req.params.id;
-            const threat = this.threats.find((threat) => threat.id === id);
-            if (threat) {
-              res.status(200).json({
-                threat
-            });
-          } else {
-            res.status(404).json({ message: "list not found." });
-          }
           } catch (e) {
             console.log("error", e);
             res.status(503).json({ message: e });

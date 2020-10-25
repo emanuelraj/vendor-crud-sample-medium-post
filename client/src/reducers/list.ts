@@ -31,12 +31,10 @@ export default function(state: any = initState, action: any = {}) {
         loadingThreatsFetch: true
       };
     case actions.THREATS_LOAD_SUCCESS:
-      ({
-        response: { }
-      } = action);
       return {
         ...state,
-        loadingThreatsFetch: false
+        loadingThreatsFetch: false,
+        threats: action.response.threats
       };
     case actions.THREAT_DELETE_REQUEST:
       return {
@@ -44,9 +42,15 @@ export default function(state: any = initState, action: any = {}) {
         loadingDeleteThreat: true
       };
     case actions.THREAT_DELETE_SUCCESS:
+      debugger
+      state.threats = state.threats.filter(
+        (threat: any) => threat.id !== action.id
+      );
+      debugger
       return {
         ...state,
-        loadingDeleteThreat: false
+        loadingDeleteThreat: false,
+        threats: state.threats
       };
     case actions.THREAT_UPDATE:
       return {

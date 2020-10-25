@@ -4,6 +4,22 @@ import { connect } from 'react-redux';
 import actions from '../actions/threat';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { 
+  Table,
+  Tag,
+  Space,
+  Button,
+  Drawer,
+  Form,
+  Input,
+  InputNumber,
+  Typography,
+  Row,
+  Col
+} from 'antd';
+import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import tagColor from './tagColor';
+const { Title } = Typography;
 
 interface RecipeProps {
   history?: any;
@@ -14,30 +30,187 @@ interface RecipeProps {
 }
 
 class Home extends Component<RecipeProps> {
+  state = {
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+    loading: false,
+    visible: false,
+    drawerTitle: 'NEW',
+    formValue: {
+      id: null,
+      title: null,
+      classification: null,
+      impact: null,
+      likelihood: null
+    }
+  };
+
+  columns = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+    },
+    {
+      title: 'Title',
+      dataIndex: 'title',
+    },
+    {
+      title: 'Classification',
+      dataIndex: 'classification',
+    },
+    {
+      title: 'Impact',
+      dataIndex: 'impact',
+    },
+    {
+      title: 'Likelihood',
+      dataIndex: 'likelihood',
+    },
+    {
+      title: 'Risk',
+      dataIndex: 'risk',
+      render: (tag: any) => (
+        <Tag color={(tagColor as any)[tag]} key={tag}>
+          {tag.toUpperCase()}
+        </Tag>
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text: string, record: any) => (
+        <Space size="middle">
+          <Button type="dashed" shape="circle" icon={<EditOutlined />} onClick={()=>this.open(true, record)} />
+          <Button type="dashed" shape="circle" icon={<DeleteOutlined />} onClick={()=>this.onDelete(record.id)}/>
+        </Space>
+      ),
+    },
+  ];
+
   componentDidMount() {
+    (this.props as any).loadThreats()
+  }
+
+  onClose = () => {
+    this.setState({
+      visible:false,
+      drawerTitle: 'NEW',
+      formValue: {
+        id: null,
+        title: null,
+        classification: null,
+        impact: null,
+        likelihood: null
+      }
+    })
+  }
+
+  open = (isEdit: Boolean=false, record: any= null) => {
+    this.setState({visible:true})
+    if(isEdit){
+      this.setState({drawerTitle:'EDIT', formValue: record})
+    }
+  }
+
+  onFieldChange = (name: string, value: any) => {
+    const formValue: any = {...this.state.formValue}
+    formValue[name] = value;
+    this.setState({formValue})
+  }
+
+  onSubmit = () => {
+    const formValue: any = {...this.state.formValue}
+    console.log(formValue)
+  }
+
+  onDelete = (id: string) => {
+    (this.props as any).deleteThreat({id})
+  }
+
+  renderForm = () => {
+    const formValue: any = {...this.state.formValue}
+    return <Form
+      layout="horizontal"
+    >
+      <Form.Item>
+          <Input
+            placeholder="Title"
+            onChange={(e)=>this.onFieldChange('title',e.target.value)}
+            value={formValue.title}
+          />
+      </Form.Item>
+      <Form.Item>
+          <Input
+            placeholder="Classification"
+            onChange={(e)=>this.onFieldChange('classification',e.target.value)}
+            value={formValue.classification}
+          />
+      </Form.Item>
+      <Form.Item>
+          <InputNumber 
+            max={3}
+            min={0}
+            placeholder="Impact"
+            style={{ width: '100%' }}
+            onChange={(value)=>this.onFieldChange('impact',value)}
+            value={formValue.impact}
+          />
+      </Form.Item>
+      <Form.Item>
+      <InputNumber 
+            max={3}
+            min={0}
+            placeholder="Likelihood"
+            style={{ width: '100%' }}
+            onChange={(value)=>this.onFieldChange('likelihood',value)}
+            value={formValue.likelihood}
+          />
+      </Form.Item>
+      <Form.Item>
+        <Button onClick={this.onSubmit}>Save</Button>
+      </Form.Item>
+    </Form>
   }
 
   render() {
+    const { pagination, loading, visible, drawerTitle } = this.state;
+    const data = this.props.listStore.threats
     return (
-      <ToastContainer>
-        <div>test</div>
-      </ToastContainer>
+      <Row>
+        <Col flex="auto">
+        <ToastContainer/>
+        <Title level={3} style={{display: 'inline-block', marginRight: 5}}>Add new threat: </Title>
+        <Button type="dashed" shape="circle" icon={<PlusCircleOutlined />} onClick={()=>this.open()} />
+        <Drawer
+          title={drawerTitle}
+          width='20%'
+          placement="right"
+          closable={false}
+          onClose={this.onClose}
+          visible={visible}
+        >
+          {this.renderForm()}
+        </Drawer>
+        <Table
+          columns={this.columns}
+          dataSource={data}
+          rowKey={record => record.id}
+          pagination={pagination}
+          loading={loading}
+        />
+        </Col>
+      </Row>
     );
   }
-
-  handleReset = () => {
-    const {
-      props: {
-        listStore: { listId },
-        resetList
-      }
-    } = this;
-    resetList({ listId });
-  };
 }
 
 const dispatchProps = {
-  loadThreats: actions.loadThreats
+  loadThreats: actions.loadThreats,
+  createThreat: actions.createThreat,
+  deleteThreat: actions.deleteThreat,
+  updateThreat: actions.updateThreat,
 };
 
 const mapStateToProps = (state: any) => {

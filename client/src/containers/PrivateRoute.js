@@ -10,7 +10,7 @@ class PrivateRoute extends Component {
       <Route
         {...props}
         render={p =>
-          false ? (
+          true ? (
             <Comp {...p} />
           ) : (
             <Redirect
@@ -32,7 +32,7 @@ PrivateRoute.propTypes = {
 }
 
 function mapStateToProps(state) {
-  
+  return {}
 }
 
 export default connect(mapStateToProps, {})(PrivateRoute)
