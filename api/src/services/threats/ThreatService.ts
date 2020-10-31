@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import _ from "lodash";
 import Threat from "../../models/Threat";
 import { Route } from "../../utils";
-
+import {validate} from "../../middleware/common"
 export default class ThreatService {
   
   public threats: Threat[] = [];
@@ -28,7 +28,8 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        }
+        },
+        validate
       ]),
       new Route("/api/threats", "get", [
         async (req: Request, res: Response) => {
@@ -47,7 +48,8 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        }
+        },
+        validate
       ]),
       new Route("/api/threats/:id", "delete", [
         async (req: Request, res: Response) => {
@@ -63,7 +65,8 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        }
+        },
+        validate
       ]),
       new Route("/api/threats/:id", "put", [
         async (req: Request, res: Response) => {
@@ -85,7 +88,8 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        }
+        },
+        validate
       ]),
     ];
   }

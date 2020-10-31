@@ -35,7 +35,6 @@ class Home extends Component<RecipeProps> {
       current: 1,
       pageSize: 5,
     },
-    loading: false,
     visible: false,
     drawerTitle: 'NEW',
     formValue: {
@@ -139,7 +138,7 @@ class Home extends Component<RecipeProps> {
     (this.props as any).loadThreats({pagination})
   }
 
-  renderForm = () => {
+  renderForm = (loadingDeleteThreat: boolean,loadingUpdateThreat: boolean) => {
     const formValue: any = {...this.state.formValue}
     return <Form
       layout="horizontal"
@@ -179,21 +178,26 @@ class Home extends Component<RecipeProps> {
           />
       </Form.Item>
       <Form.Item>
-        <Button onClick={this.onSubmit}>Save</Button>
+        <Button disabled={(loadingDeleteThreat||loadingUpdateThreat)} onClick={this.onSubmit}>Save</Button>
       </Form.Item>
     </Form>
   }
 
   render() {
-    const { pagination, loading, visible, drawerTitle } = this.state;
+    const { pagination, visible, drawerTitle } = this.state;
     const data = this.props.listStore.threats;
+    const {
+      loadingThreatsFetch,
+      loadingCreateThreat,
+      loadingDeleteThreat,
+      loadingUpdateThreat } = this.props.listStore;
     (pagination as any).total = this.props.listStore.total;
     return (
       <Row>
         <Col flex="auto">
         <ToastContainer/>
         <Title level={3} style={{display: 'inline-block', marginRight: 5}}>Add new threat: </Title>
-        <Button type="dashed" shape="circle" icon={<PlusCircleOutlined />} onClick={()=>this.open()} />
+        <Button disabled={loadingCreateThreat} type="dashed" shape="circle" icon={<PlusCircleOutlined />} onClick={()=>this.open()} />
         <Drawer
           title={drawerTitle}
           width='20%'
@@ -202,14 +206,14 @@ class Home extends Component<RecipeProps> {
           onClose={this.onClose}
           visible={visible}
         >
-          {this.renderForm()}
+          {this.renderForm(loadingDeleteThreat,loadingUpdateThreat)}
         </Drawer>
         <Table
           columns={this.columns}
           dataSource={data}
           rowKey={record => record.id}
           pagination={{...pagination, }}
-          loading={loading}
+          loading={loadingThreatsFetch}
           onChange={this.onChange}
         />
         </Col>
