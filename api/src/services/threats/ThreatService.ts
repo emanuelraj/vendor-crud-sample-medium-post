@@ -15,6 +15,7 @@ export default class ThreatService {
   public getRoutes() {
     return [
       new Route("/api/threats", "post", [
+        validate,
         async (req: Request, res: Response) => {
           try {
             const {title, classification, impact, likelihood} = req.body
@@ -28,10 +29,10 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        },
-        validate
+        }
       ]),
       new Route("/api/threats", "get", [
+        validate,
         async (req: Request, res: Response) => {
           try {
             const skip = ((req.headers as any).current - 1) * (req.headers as any).pagesize;
@@ -49,9 +50,9 @@ export default class ThreatService {
             res.status(503).json({ message: e });
           }
         },
-        validate
       ]),
       new Route("/api/threats/:id", "delete", [
+        validate,
         async (req: Request, res: Response) => {
           try {
             const id = req.params.id;
@@ -65,10 +66,10 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        },
-        validate
+        }
       ]),
       new Route("/api/threats/:id", "put", [
+        validate,
         async (req: Request, res: Response) => {
           try {
             const id = req.params.id;
@@ -88,8 +89,7 @@ export default class ThreatService {
             console.log("error", e);
             res.status(503).json({ message: e });
           }
-        },
-        validate
+        }
       ]),
     ];
   }
