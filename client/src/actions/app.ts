@@ -1,13 +1,20 @@
 import * as actions from '../global/actions'
 import { action } from './util'
 
-export const loadUserLogin = (filters: any) => action(actions.APP_LOAD_USER_LOGIN, filters)
-
 export const userLogin = {
+  login: (option: object) => action(actions.USER_LOGIN, option),
   request: () => action(actions.USER_LOGIN_REQUEST),
-  success: (filters: any, response: any) =>
-    action(actions.USER_LOGIN_SUCCESS, { filters, response }),
-  failure: (filters:any , error:any) => action(actions.USER_LOGIN_FAILURE, { filters, error })
+  success: (response: any) =>
+    action(actions.USER_LOGIN_SUCCESS, { response }),
+  failure: (error:any) => action(actions.USER_LOGIN_FAILURE, { error })
 }
 
-export const userLogout = () => action(actions.USER_LOGOUT_SUCCESS)
+export const userSignup = {
+  signup: (option: object) => action(actions.USER_SIGNUP, option),
+  request: () => action(actions.USER_SIGNUP_REQUEST),
+  success: (response: any) =>
+    action(actions.USER_SIGNUP_SUCCESS, { response }),
+  failure: (error:any) => action(actions.USER_SIGNUP_FAILURE, { error })
+}
+
+export const userLogout = () => action(actions.USER_LOGOUT)

@@ -19,6 +19,9 @@ import {
 } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import tagColor from './tagColor';
+import './Home.css'
+import { Link } from 'react-router-dom';
+
 const { Title } = Typography;
 
 interface RecipeProps {
@@ -193,7 +196,12 @@ class Home extends Component<RecipeProps> {
       loadingUpdateThreat } = this.props.listStore;
     (pagination as any).total = this.props.listStore.total;
     return (
+      <>
+        <div className="topnav">
+          <Link to="/logout">Logout</Link>
+      </div>
       <Row>
+        
         <Col flex="auto">
         <ToastContainer/>
         <Title level={3} style={{display: 'inline-block', marginRight: 5}}>Add new threat: </Title>
@@ -218,7 +226,8 @@ class Home extends Component<RecipeProps> {
         />
         </Col>
       </Row>
-    );
+      </>
+          );
   }
 }
 

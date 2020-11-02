@@ -8,7 +8,10 @@ const initState = {
   loadingThreatsFetch: false,
   loadingCreateThreat: false,
   loadingDeleteThreat: false,
-  loadingUpdateThreat: false
+  loadingUpdateThreat: false,
+  loadingUserLogin: false,
+  loadingUserSignup: false,
+  userConfirmation: false
 };
 
 export default function(state: any = initState, action: any = {}) {
@@ -58,7 +61,6 @@ export default function(state: any = initState, action: any = {}) {
         loadingUpdateThreat: true
       };
     case actions.THREAT_UPDATE_SUCCESS:
-      debugger
       const {id} = action.response;
       const newThreat = action.response;
       const index = _.findIndex(state.threats, {id});
@@ -68,6 +70,31 @@ export default function(state: any = initState, action: any = {}) {
         loadingUpdateThreat: false,
         threats: [...state.threats]
       };
+    case actions.USER_LOGIN_REQUEST:
+      return {
+        ...state,
+        loadingUserLogin: true
+      }
+    
+      case actions.USER_LOGIN_SUCCESS:
+        return {
+          ...state,
+          loadingUserLogin: false,
+          userConfirmation: false
+        }
+
+    case actions.USER_SIGNUP_REQUEST:
+      return {
+        ...state,
+        loadingUserSignup: true
+      }
+    case action.USER_SIGNUP_SUCCESS:
+      return{
+        ...state,
+        loadingUserSignup: false,
+        userConfirmation: true
+      }
+
     default:
       return state;
   }

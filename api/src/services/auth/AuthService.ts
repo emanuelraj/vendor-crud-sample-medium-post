@@ -43,7 +43,7 @@ export default class AuthService {
             }
         ]),
         new Route("/auth/login","post",[
-            async (req: Request, res: Response) => {
+            (req: Request, res: Response) => {
                 const userName = req.body.name;
                 const password = req.body.password;
                 const authenticationDetails = new AuthenticationDetails({
@@ -66,12 +66,10 @@ export default class AuthService {
                         res.status(503).json({ message: err });
                     })
                 })
-                
-
             }
         ]),
         new Route("/auth/validate","post",[
-            async (req: Request, res: Response) => {
+            (req: Request, res: Response) => {
                 request({
                     url : `https://cognito-idp.${pool_region}.amazonaws.com/${poolData.UserPoolId}/.well-known/jwks.json`,
                     json : true

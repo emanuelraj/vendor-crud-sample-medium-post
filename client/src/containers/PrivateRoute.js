@@ -10,7 +10,7 @@ class PrivateRoute extends Component {
       <Route
         {...props}
         render={p =>
-          true ? (
+          isAuthenticated ? (
             <Comp {...p} />
           ) : (
             <Redirect

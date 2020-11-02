@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
-import { loadUserLogin } from '../actions/app'
+import * as actions from '../actions/app'
 import styled from 'styled-components'
 import loginBg from '../assets/Background.svg'
 import Logo from '../assets/FwdSec_logo.png'
@@ -10,7 +10,7 @@ import { Layout, Row, Col, Form, Input, Button, Typography } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { mobileL } from '../components/devices'
 
-const { Title } = Typography;
+const { Title, Text} = Typography;
 const LoginContent = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -23,14 +23,20 @@ const LoginContent = styled.div`
 
 class LoginPage extends Component {
   state = {
-    email: '',
-    password: ''
+    email: 'a.bidva@gmail.com',
+    password: '123Abc,./',
+    isSignUp: false,
   }
 
-  userLogin = e => {
+  onSubmit = (e,type) => {
     e.preventDefault()
+    const {isSignUp} = this.state;
     const { email, password } = this.state
-    this.props.loadUserLogin({ email, password })
+    if(isSignUp){
+      this.props.userSignup({ email, password })
+    } else {
+      this.props.userLogin({ email, password })
+    }
   }
 
   handleChangeEmail = event => {
@@ -41,11 +47,15 @@ class LoginPage extends Component {
     this.setState({ password: event.target.value })
   }
 
+  toggleSignup = (e) => {
+    const {isSignUp} = this.state;
+    this.setState({isSignUp: !isSignUp})
+  }
+
   render() {
-    const { app } = this.props
-    if (false) {
-      return <Redirect to='/' />
-    }
+    const {isSignUp} = this.state;
+    const { listStore } = this.props;
+    const {loadingUserLogin, loadingUserSignup, userConfirmation} = listStore
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout.Content
@@ -65,7 +75,12 @@ class LoginPage extends Component {
                   <img src={Logo} alt="logo"/>
                   <br />
                   <br />
-                  <Title level={3} style={{color: '#fff'}}>LOGIN</Title>
+                  {
+                    isSignUp?
+                    <Title level={3} style={{color: '#fff'}}>SIGNUP</Title>:
+                    <Title level={3} style={{color: '#fff'}}>LOGIN</Title>
+                  }
+                  
                   <Form.Item>
                     <Input
                       placeholder='Email'
@@ -82,6 +97,22 @@ class LoginPage extends Component {
                     />
                   </Form.Item>
                   <Form.Item>
+                    {
+                      isSignUp?
+                      <Text style={{'color':'#fff'}}>if you already have an account <a href="#" onClick={this.toggleSignup}>login</a></Text>:
+                      <Text style={{'color':'#fff'}}>if you don't have an account <a href="#" onClick={this.toggleSignup}>signup</a></Text>
+                    }
+
+                    {
+                      userConfirmation ? 
+                      <Text style={{'color':'#fff'}}>Please make a contact with your administrator to he confirms your registratiopn.</Text>:
+                      null
+                    }
+                  
+
+                  </Form.Item>
+
+                  <Form.Item>
                     <Button
                       background='mmoser'
                       as='button'
@@ -90,11 +121,13 @@ class LoginPage extends Component {
                       htmlType='submit'
                       className='login-form-button'
                       style={{ width: '100%' }}
+                      disabled={loadingUserLogin||loadingUserSignup}
+                      onClick={this.onSubmit}
                     >
                       {false ? (
                         <LoadingOutlined />
                       ) : (
-                        'Login'
+                        isSignUp? 'Signup' : 'Login'
                       )}
                     </Button>
                   </Form.Item>
@@ -110,12 +143,13 @@ class LoginPage extends Component {
 
 LoginPage.propTypes = {
   app: PropTypes.object.isRequired,
-  loadUserLogin: PropTypes.func.isRequired
+  userLogin: PropTypes.func.isRequired,
+  userSignup: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { app } = state
-  return { app }
+  const { listStore } = state
+  return { listStore }
 }
 
-export default connect(mapStateToProps, { loadUserLogin })(LoginPage)
+export default connect(mapStateToProps, { userLogin: actions.userLogin.login, userSignup: actions.userSignup.signup })(LoginPage)

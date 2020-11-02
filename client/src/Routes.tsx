@@ -7,19 +7,23 @@ import LogoutPage from './pages/LogoutPage'
 import Home from './pages/Home';
 import PrivateRoute from './containers/PrivateRoute'
 
-function usePageViews() {
+const usePageViews = () => {
   const location = useLocation();
 
   useEffect(() => {}, [location]);
 }
 
-function Routes() {
+const isAuthenticated  = () => {
+  return localStorage.getItem('token') ? true : false;
+}
+
+const Routes = () => {
   usePageViews();
   return (
     <Switch>
       <Route exact path='/login' component={LoginPage} />
       <Route exact path='/logout' component={LogoutPage} />
-      <PrivateRoute path='/' component={Home} />
+      <PrivateRoute path='/' component={Home} isAuthenticated={isAuthenticated()} />
     </Switch>
   );
 }

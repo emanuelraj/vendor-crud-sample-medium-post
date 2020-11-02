@@ -26,7 +26,11 @@ const loadThreats = (option: any) => {
   const { pagination } = option;
   const endpoint = `${baseUrl}/api/threats`;
   const options = {
-    headers: { 'current': pagination.current, 'pageSize': pagination.pageSize },
+    headers: { 
+      'current': pagination.current,
+      'pageSize': pagination.pageSize,
+      'authorization': localStorage.getItem('token')
+    },
     mode: 'cors',
     method: 'GET'
   };
@@ -38,7 +42,10 @@ const createThreat = (option: any) => {
   const {title, classification, impact, likelihood} = option;
   const endpoint = `${baseUrl}/api/threats`;
   const options = {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem('token')
+    },
     mode: 'cors',
     method: 'POST',
     body: JSON.stringify({title, classification, impact, likelihood})
@@ -51,6 +58,9 @@ const deleteThreat = (option: any) => {
   const { id } = option;
   const endpoint = `${baseUrl}/api/threats/${id}`;
   const options = {
+    headers: { 
+      'authorization': localStorage.getItem('token')
+    },
     mode: 'cors',
     method: 'DELETE'
   };
@@ -62,7 +72,10 @@ const updateThreat = (option: any) => {
   const { id, title, classification, impact, likelihood } = option;
   const endpoint = `${baseUrl}/api/threats/${id}`;
   const options = {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem('token')
+    },
     mode: 'cors',
     method: 'PUT',
     body: JSON.stringify({ title, classification, impact, likelihood })
@@ -70,9 +83,37 @@ const updateThreat = (option: any) => {
   return callApiEndpoint(endpoint, options);
 };
 
+const userLogin = (option: any) => {
+  const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
+  const { email, password } = option;
+  const endpoint = `${baseUrl}/auth/login`;
+  const options = {
+    headers: { 'Content-Type': 'application/json' },
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({ name: email, password })
+  };
+  return callApiEndpoint(endpoint, options);
+}
+
+const userSignup = (option: any) => {
+  const { REACT_APP_API_BASE_URL: baseUrl } = process.env;
+  const { email, password } = option;
+  const endpoint = `${baseUrl}/auth/register`;
+  const options = {
+    headers: { 'Content-Type': 'application/json' },
+    mode: 'cors',
+    method: 'POST',
+    body: JSON.stringify({ email, password })
+  };
+  return callApiEndpoint(endpoint, options);
+}
+
 export const apiCalls = {
   loadThreats,
   createThreat,
   deleteThreat,
-  updateThreat
+  updateThreat,
+  userLogin,
+  userSignup
 };
