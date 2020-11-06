@@ -7,10 +7,10 @@ import jwt from 'jsonwebtoken';
 import jwkToPem from 'jwk-to-pem';
 
 export const poolData = {
-    UserPoolId: "us-east-1_v05I4y159",
-    ClientId: "4rq699s1p2c3sa5vb6s0veft05"
+    UserPoolId: "us-east-2_dstmMLnzk",
+    ClientId: "5he8ksi702gfca4v5q97am09rh"
  };
- export const pool_region = "us-east-1";
+ export const pool_region = "us-east-2";
  
  const userPool = new CognitoUserPool(poolData);
 

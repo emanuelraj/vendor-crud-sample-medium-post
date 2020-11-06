@@ -1,6 +1,5 @@
 import * as actions from '../global/actions';
 import _ from 'lodash';
-import Threat from '../models/Threat';
 
 const initState = {
   threats: null,
@@ -60,11 +59,11 @@ export default function(state: any = initState, action: any = {}) {
         ...state,
         loadingUpdateThreat: true
       };
-    case actions.THREAT_UPDATE_SUCCESS:
+    case actions.THREAT_UPDATE_SUCCESS:      
       const {id} = action.response;
       const newThreat = action.response;
       const index = _.findIndex(state.threats, {id});
-      state.threats[id] = newThreat;
+      state.threats[index] = newThreat;
       return {
         ...state,
         loadingUpdateThreat: false,
@@ -84,12 +83,14 @@ export default function(state: any = initState, action: any = {}) {
         }
 
     case actions.USER_SIGNUP_REQUEST:
+      debugger;
       return {
         ...state,
         loadingUserSignup: true
       }
-    case action.USER_SIGNUP_SUCCESS:
-      return{
+    case actions.USER_SIGNUP_SUCCESS:
+      debugger;
+      return{        
         ...state,
         loadingUserSignup: false,
         userConfirmation: true

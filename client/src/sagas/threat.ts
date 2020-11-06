@@ -26,7 +26,7 @@ function* createThreat(option: any) {
 }
 
 function* deleteItem(option: any) {
-  const { id: id } = option;
+  const { id } = option;
   yield put(actions.deleteThreatRequest());
   try {
     const { response, error } = yield call(apiCalls.deleteThreat, {

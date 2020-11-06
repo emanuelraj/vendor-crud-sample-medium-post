@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import * as actions from '../actions/app'
 import styled from 'styled-components'
@@ -23,8 +22,8 @@ const LoginContent = styled.div`
 
 class LoginPage extends Component {
   state = {
-    email: 'a.bidva@gmail.com',
-    password: '123Abc,./',
+    email: 're.moghaddas@gmail.com',
+    password: 'Sa$12345678',
     isSignUp: false,
   }
 
@@ -52,10 +51,27 @@ class LoginPage extends Component {
     this.setState({isSignUp: !isSignUp})
   }
 
+  onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      }
+
   render() {
+    //debugger;
     const {isSignUp} = this.state;
     const { listStore } = this.props;
     const {loadingUserLogin, loadingUserSignup, userConfirmation} = listStore
+    console.log(loadingUserSignup,loadingUserLogin);
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout.Content
@@ -99,13 +115,16 @@ class LoginPage extends Component {
                   <Form.Item>
                     {
                       isSignUp?
-                      <Text style={{'color':'#fff'}}>if you already have an account <a href="#" onClick={this.toggleSignup}>login</a></Text>:
-                      <Text style={{'color':'#fff'}}>if you don't have an account <a href="#" onClick={this.toggleSignup}>signup</a></Text>
+                      <Text style={{'color':'#fff'}}>if you already have an account <a  onClick={this.toggleSignup}>login</a></Text>:
+                      <Text style={{'color':'#fff'}}>if you don't have an account <a onClick={this.toggleSignup}>signup</a></Text>
                     }
 
                     {
                       userConfirmation ? 
-                      <Text style={{'color':'#fff'}}>Please make a contact with your administrator to he confirms your registratiopn.</Text>:
+                      <>
+                      <br></br>
+                      <Text style={{'color':'#fff'}}> Please make a contact with your administrator to he confirms your registratiopn.</Text>
+                      </>:
                       null
                     }
                   
@@ -130,6 +149,7 @@ class LoginPage extends Component {
                         isSignUp? 'Signup' : 'Login'
                       )}
                     </Button>
+                    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
                   </Form.Item>
                 </Form>
               </Col>

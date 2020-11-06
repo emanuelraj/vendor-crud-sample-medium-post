@@ -1,6 +1,6 @@
-import { delay, put, call, takeEvery, takeLatest } from 'redux-saga/effects';
+import { delay, put, call, takeEvery } from 'redux-saga/effects';
 import * as actionType from '../global/actions';
-import {userSignup, userLogin, userLogout} from '../actions/app';
+import {userSignup, userLogin } from '../actions/app';
 import { apiCalls } from '../global/Api';
 import { toast } from 'react-toastify';
 import { history } from '../config/store';
@@ -10,9 +10,11 @@ function* login(option: any) {
     const { email, password } = option;
     yield put(userLogin.request());
     try {
+      debugger;
       const { response, error } = yield call(apiCalls.userLogin, {
         email, password
       });
+      debugger;
       if (response) {
         yield put(userLogin.success(response));
         localStorage.setItem('token', response.token);
@@ -28,12 +30,14 @@ function* login(option: any) {
   }
 
 function* signup(option: any) {
-    const { email, password } = option;
+    const { email, password } = option;        
     yield put(userSignup.request());
+    debugger;
     try {
       const { response, error } = yield call(apiCalls.userSignup, {
         email, password
       });
+      debugger;
       if (response) {
         yield put(userSignup.success(response));
       } else {
@@ -47,7 +51,7 @@ function* signup(option: any) {
   }
 
   function* logout(option: any) {
-    localStorage.removeItem('token');
+    yield localStorage.removeItem('token');
     history.push('/')
   }
 
