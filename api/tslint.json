@@ -1,0 +1,40 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint-eslint-rules",
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "indent": [true, "spaces", 2],
+        "max-classes-per-file": false,
+        "max-line-length": false,
+        "object-curly-spacing": [
+            true,
+            "always",
+            {
+                "arraysInObjects": false,
+                "objectsInObjects": true
+            }
+        ],
+        "object-literal-sort-keys": false,
+        "class-name": false,
+        "interface-name": false,
+        "ter-no-proto": true,
+        "ter-no-self-compare": true,
+        "ter-no-mixed-spaces-and-tabs": true,
+        "ter-prefer-arrow-callback": [true],
+        "trailing-comma": false,
+        "no-console": false,
+        "no-constant-condition": true,
+        "no-empty": false,
+        "no-extra-semi": true,
+        "no-invalid-regexp": true,
+        "no-invalid-this": true,
+        "no-trailing-whitespace": false,
+        "no-switch-case-fall-through": true,
+        "no-unused-expression": false,
+        "no-var-requires": false
+    },
+    "rulesDirectory": []
+}
